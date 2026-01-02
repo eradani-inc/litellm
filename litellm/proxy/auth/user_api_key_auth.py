@@ -865,12 +865,9 @@ async def _user_api_key_auth_builder(  # noqa: PLR0915
         if valid_token is None:
             if isinstance(
                 api_key, str
-            ):  # if generated token, make sure it starts with sk-.
-                assert api_key.startswith(
-                    "sk-"
-                ), "LiteLLM Virtual Key expected. Received={}, expected to start with 'sk-'.".format(
-                    api_key
-                )  # prevent token hashes from being used
+            ):  # if generated token, validate it exists
+                if not api_key:
+                    raise Exception("API key cannot be empty")
             else:
                 verbose_logger.warning(
                     "litellm.proxy.proxy_server.user_api_key_auth(): Warning - Key is not a string. Got type={}".format(
@@ -878,8 +875,8 @@ async def _user_api_key_auth_builder(  # noqa: PLR0915
                     )
                 )
             abbreviated_api_key = abbreviate_api_key(api_key=api_key)
-            if api_key.startswith("sk-"):
-                api_key = hash_token(token=api_key)
+            # Hash all API keys consistently, regardless of prefix
+            api_key = hash_token(token=api_key)
 
             try:
                 valid_token = await get_key_object(

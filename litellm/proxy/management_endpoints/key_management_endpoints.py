@@ -617,14 +617,7 @@ async def _common_key_generation_helper(  # noqa: PLR0915
         prisma_client=prisma_client,
     )
 
-    # Validate user-provided key format
-    if data.key is not None and not data.key.startswith("sk-"):
-        raise HTTPException(
-            status_code=400,
-            detail={
-                "error": f"Invalid key format. LiteLLM Virtual Key must start with 'sk-'. Received: {data.key}"
-            },
-        )
+    # Removed validation that required keys to start with "sk-"
 
     # check org key limits - done here to handle inheriting org id from team
     if data.organization_id is not None:
@@ -2623,13 +2616,7 @@ async def _rotate_master_key(
 def get_new_token(data: Optional[RegenerateKeyRequest]) -> str:
     if data and data.new_key is not None:
         new_token = data.new_key
-        if not data.new_key.startswith("sk-"):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail={
-                    "error": "New key must start with 'sk-'. This is to distinguish a key hash (used by litellm for logging / internal logic) from the actual key."
-                },
-            )
+        # Removed validation that required new keys to start with "sk-"
     else:
         new_token = f"sk-{secrets.token_urlsafe(LENGTH_OF_LITELLM_GENERATED_KEY)}"
     return new_token
@@ -2802,7 +2789,7 @@ async def regenerate_key_fn(
         new_token = get_new_token(data=data)
 
         new_token_hash = hash_token(new_token)
-        new_token_key_name = f"sk-...{new_token[-4:]}"
+        new_token_key_name = f"...{new_token[-4:]}"
 
         # Prepare the update data
         update_data = {
