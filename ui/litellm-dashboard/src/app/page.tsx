@@ -30,6 +30,7 @@ import Settings from "@/components/settings";
 import TagManagement from "@/components/tag_management";
 import TransformRequestPanel from "@/components/transform_request";
 import UIThemeSettings from "@/components/ui_theme_settings";
+import GlobalContextSettings from "@/components/global_context_settings";
 import Usage from "@/components/usage";
 import UserDashboard from "@/components/user_dashboard";
 import VectorStoreManagement from "@/components/vector_store_management";
@@ -397,6 +398,8 @@ export default function CreateKeyPage() {
                   <UIThemeSettings userID={userID} userRole={userRole} accessToken={accessToken} />
                 ) : page == "cost-tracking" ? (
                   <CostTrackingSettings userID={userID} userRole={userRole} accessToken={accessToken} />
+                ) : page == "global-context" ? (
+                  <GlobalContextSettings accessToken={accessToken} />
                 ) : page == "model-hub-table" ? (
                   isAdminRole(userRole) ? (
                     <ModelHubTable

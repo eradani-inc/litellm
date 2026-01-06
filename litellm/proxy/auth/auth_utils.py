@@ -628,4 +628,4 @@ def get_model_from_request(
 
 
 def abbreviate_api_key(api_key: str) -> str:
-    return f"sk-...{api_key[-4:]}"
+    return f"...{api_key[-4:]}"

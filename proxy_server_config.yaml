@@ -152,6 +152,7 @@ model_list:
 litellm_settings:
   # set_verbose: True  # Uncomment this if you want to see verbose logs; not recommended in production
   drop_params: True
+  modify_params: True  # Auto-add dummy tool when tool_calls exist without tools param (fixes Anthropic tool calling errors)
   success_callback: ["prometheus"]
   # max_budget: 100 
   # budget_duration: 30d
@@ -177,6 +178,9 @@ litellm_settings:
   #   type: redis
   #   host: localhost
   #   port: 6379
+
+environment_variables:
+  LITELLM_MODIFY_PARAMS: "true"  # Environment variable fallback for modify_params
 
 # For /fine_tuning/jobs endpoints
 finetune_settings:
@@ -228,4 +232,4 @@ general_settings:
   # settings for using redis caching
   # REDIS_HOST: redis-16337.c322.us-east-1-2.ec2.cloud.redislabs.com
   # REDIS_PORT: "16337"
-  # REDIS_PASSWORD: 
+  # REDIS_PASSWORD:

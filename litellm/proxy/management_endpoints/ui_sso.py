@@ -963,10 +963,11 @@ async def cli_sso_callback(
         user_api_key_cache,
     )
 
-    if not key or not key.startswith("sk-"):
+    # Removed validation that required keys to start with "sk-"
+    if not key:
         raise HTTPException(
             status_code=400,
-            detail="Invalid key parameter. Must be a valid key ID starting with 'sk-'",
+            detail="Invalid key parameter. Key ID is required.",
         )
 
     if prisma_client is None:
@@ -1089,8 +1090,7 @@ async def cli_poll_key(key_id: str, team_id: Optional[str] = None):
     from litellm.proxy.auth.auth_checks import ExperimentalUIJWTToken
     from litellm.proxy.proxy_server import user_api_key_cache
 
-    if not key_id.startswith("sk-"):
-        raise HTTPException(status_code=400, detail="Invalid key ID format")
+    # Removed validation that required key IDs to start with "sk-"
 
     try:
         # Look up session in cache
