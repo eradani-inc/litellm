@@ -303,6 +303,13 @@ const Sidebar: React.FC<SidebarProps> = ({ setPage, defaultSelectedKey, collapse
               icon: <BgColorsOutlined />,
               roles: all_admin_roles,
             },
+            {
+              key: "global-context",
+              page: "global-context",
+              label: "Global Context",
+              icon: <FileTextOutlined />,
+              roles: all_admin_roles,
+            },
           ],
         },
       ],

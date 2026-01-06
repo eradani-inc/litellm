@@ -3,6 +3,7 @@ from typing import Literal, Union
 
 from . import *
 from .cache_control_check import _PROXY_CacheControlCheck
+from .global_context_hook import GlobalContextHook
 from .litellm_skills import SkillsInjectionHook
 from .max_budget_limiter import _PROXY_MaxBudgetLimiter
 from .parallel_request_limiter import _PROXY_MaxParallelRequestsHandler
@@ -23,6 +24,7 @@ PROXY_HOOKS = {
     "cache_control_check": _PROXY_CacheControlCheck,
     "responses_id_security": ResponsesIDSecurity,
     "litellm_skills": SkillsInjectionHook,
+    "global_context": GlobalContextHook,
 }
 
 ## FEATURE FLAG HOOKS ##

@@ -8215,3 +8215,108 @@ export const updateUiSettings = async (accessToken: string, settings: Record<str
   const data = await response.json();
   return data;
 };
+
+// Global Context / System Prompt API calls
+export interface GlobalContextResponse {
+  success: boolean;
+  message: string;
+  global_context: string | null;
+}
+
+export const getGlobalContext = async (accessToken: string): Promise<GlobalContextResponse> => {
+  /**
+   * Get the current global context/system prompt
+   */
+  try {
+    const url = proxyBaseUrl ? `${proxyBaseUrl}/config/global_context` : `/config/global_context`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        [globalLitellmHeaderName]: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = deriveErrorMessage(errorData);
+      handleError(errorMessage);
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to get global context:", error);
+    throw error;
+  }
+};
+
+export const setGlobalContext = async (
+  accessToken: string,
+  globalContext: string | null
+): Promise<GlobalContextResponse> => {
+  /**
+   * Set the global context/system prompt
+   */
+  try {
+    const url = proxyBaseUrl ? `${proxyBaseUrl}/config/global_context` : `/config/global_context`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        [globalLitellmHeaderName]: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        global_context: globalContext,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = deriveErrorMessage(errorData);
+      handleError(errorMessage);
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    NotificationsManager.success(data.message || "Global context updated successfully");
+    return data;
+  } catch (error) {
+    console.error("Failed to set global context:", error);
+    throw error;
+  }
+};
+
+export const deleteGlobalContext = async (accessToken: string): Promise<GlobalContextResponse> => {
+  /**
+   * Delete/disable the global context/system prompt
+   */
+  try {
+    const url = proxyBaseUrl ? `${proxyBaseUrl}/config/global_context` : `/config/global_context`;
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        [globalLitellmHeaderName]: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = deriveErrorMessage(errorData);
+      handleError(errorMessage);
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    NotificationsManager.success(data.message || "Global context deleted successfully");
+    return data;
+  } catch (error) {
+    console.error("Failed to delete global context:", error);
+    throw error;
+  }
+};
