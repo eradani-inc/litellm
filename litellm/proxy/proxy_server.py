@@ -326,6 +326,9 @@ from litellm.proxy.management_endpoints.organization_endpoints import (
 from litellm.proxy.management_endpoints.router_settings_endpoints import (
     router as router_settings_router,
 )
+from litellm.proxy.management_endpoints.global_context_endpoints import (
+    router as global_context_router,
+)
 from litellm.proxy.management_endpoints.scim.scim_v2 import scim_router
 from litellm.proxy.management_endpoints.tag_management_endpoints import (
     router as tag_management_router,
@@ -10320,6 +10323,7 @@ app.include_router(model_access_group_management_router)
 app.include_router(tag_management_router)
 app.include_router(cost_tracking_settings_router)
 app.include_router(router_settings_router)
+app.include_router(global_context_router)
 app.include_router(cache_settings_router)
 app.include_router(user_agent_analytics_router)
 app.include_router(enterprise_router)

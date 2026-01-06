@@ -28,6 +28,7 @@ const { Title, Paragraph } = Typography;
 
 import FormItem from "antd/es/form/FormItem";
 import AlertingSettings from "./alerting/alerting_settings";
+import GlobalContextSettings from "./global_context_settings";
 import {
   deleteCallback,
   getCallbackConfigsCall,
@@ -573,9 +574,10 @@ const Settings: React.FC<SettingsPageProps> = ({ accessToken, userRole, userID, 
             <Tab value="2">
               CloudZero Cost Tracking <NewBadge />
             </Tab>
-            <Tab value="2">Alerting Types</Tab>
-            <Tab value="3">Alerting Settings</Tab>
-            <Tab value="4">Email Alerts</Tab>
+            <Tab value="3">Alerting Types</Tab>
+            <Tab value="4">Alerting Settings</Tab>
+            <Tab value="5">Email Alerts</Tab>
+            <Tab value="6">Global Context</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -692,6 +694,9 @@ const Settings: React.FC<SettingsPageProps> = ({ accessToken, userRole, userID, 
             </TabPanel>
             <TabPanel>
               <EmailSettings accessToken={accessToken} premiumUser={premiumUser} alerts={alerts} />
+            </TabPanel>
+            <TabPanel>
+              <GlobalContextSettings accessToken={accessToken} />
             </TabPanel>
           </TabPanels>
         </TabGroup>
